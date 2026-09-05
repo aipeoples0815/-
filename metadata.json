@@ -1,0 +1,11 @@
+{
+  "name": "반여시장 레트로 AI 사진관",
+  "description": "2026 반여시장 페스타 - 그 시절의 나를 다시 만나는 레트로 AI 사진관",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+

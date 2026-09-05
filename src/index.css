@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #F5F2ED;
+    color: #2C1810;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Georgia', 'Batang', 'Gungsuh', serif;
+}
+
+/* Immersive Vintage Paper Texture */
+.bg-retro-kiosk {
+  background-color: #F5F2ED;
+  background-image: radial-gradient(#E5DFD5 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
