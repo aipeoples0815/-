@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, FolderOpen, RotateCcw, ShieldCheck, Image as ImageIcon } from 'lucide-react';
+import { X, Sparkles, FolderOpen, RotateCcw, ShieldCheck, Image as ImageIcon, Download, HardDrive, CheckCircle2 } from 'lucide-react';
 
 interface OperatorModalProps {
   isOpen: boolean;
@@ -150,6 +150,43 @@ export const OperatorModal: React.FC<OperatorModalProps> = ({
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Full Code ZIP Backup & Google Drive Storing Guide */}
+          <div className="bg-amber-50/80 p-5 rounded-2xl border-2 border-[#D4AF37] shadow-sm">
+            <h4 className="font-bold text-[#800020] text-base mb-2 flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <HardDrive className="w-5 h-5 text-[#800020]" />
+                <span>v1.0 행사 버전 코드 백업 (ZIP 다운로드)</span>
+              </span>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#800020] text-[#D4AF37]">
+                v1.0 행사 원본
+              </span>
+            </h4>
+            <p className="text-xs text-[#4A2C2A] mb-3 leading-relaxed">
+              Google AI Studio 상단 메뉴에 ZIP 내보내기 버튼이 없어도, <strong>아래 버튼을 누르면 전체 프로젝트 소스코드(v1.0) 압축 파일이 즉시 브라우저로 다운로드</strong>됩니다.
+            </p>
+
+            <a
+              href="/api/download-zip"
+              download="Dongmyeong_PhotoStudio_v1.0.zip"
+              className="w-full py-3 px-4 bg-[#800020] hover:bg-[#660019] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all mb-3 text-center cursor-pointer border border-[#D4AF37]"
+            >
+              <Download className="w-4 h-4 text-[#D4AF37]" />
+              <span>동명사진관 v1.0 전체 코드 ZIP 다운로드</span>
+            </a>
+
+            <div className="bg-white/90 p-3.5 rounded-xl border border-[#4A2C2A]/15 text-xs text-[#4A2C2A] space-y-1.5">
+              <p className="font-bold text-[#2C1810] flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <span>내 Google 드라이브 폴더에 저장하는 방법:</span>
+              </p>
+              <ol className="list-decimal list-inside space-y-1 pl-1 text-[11px] leading-relaxed text-[#4A2C2A]">
+                <li>위의 <strong>[전체 코드 ZIP 다운로드]</strong> 버튼을 누르면 PC 다운로드 폴더에 저장됩니다.</li>
+                <li>다운로드된 <code className="bg-gray-100 px-1 py-0.5 rounded font-mono">Dongmyeong_PhotoStudio_v1.0.zip</code> 파일을 복사합니다.</li>
+                <li><strong>G:\내 드라이브\하하호호스튜디오\App 개발\</strong> 폴더에 붙여넣고 압축을 풀어 보관하시면 안전하게 완료됩니다!</li>
+              </ol>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Camera, Sparkles, SlidersHorizontal } from 'lucide-react';
+import { Camera, Sparkles, SlidersHorizontal, Download } from 'lucide-react';
 import { Step } from '../types';
 
 interface HeaderProps {
@@ -59,8 +59,19 @@ export const Header: React.FC<HeaderProps> = ({
           </p>
         </div>
 
-        {/* Right Operator Counter */}
-        <div className="flex items-center">
+        {/* Right Operator Counter & Version Backup */}
+        <div className="flex items-center gap-2">
+          <a
+            href="/api/download-zip"
+            download="Dongmyeong_PhotoStudio_v1.0.zip"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#800020] text-[#D4AF37] border border-[#D4AF37]/50 hover:bg-[#660019] text-xs font-bold transition-all shadow-xs cursor-pointer"
+            title="현재 버전 전체 소스코드 ZIP 다운로드 (v1.0 백업)"
+          >
+            <Download className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span className="hidden sm:inline">v1.0 백업 다운로드</span>
+            <span className="sm:hidden">ZIP</span>
+          </a>
+
           <button
             onClick={onOpenOperatorModal}
             className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 border border-[#4A2C2A]/20 hover:bg-white text-xs font-bold text-[#4A2C2A] transition-all shadow-xs group cursor-pointer"

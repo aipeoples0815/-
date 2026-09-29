@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import dotenv from 'dotenv';
+import AdmZip from 'adm-zip';
 import { GoogleGenAI, Type } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 
@@ -40,6 +42,79 @@ const savedFilenamesSet = new Set<string>();
 // Health check endpoint
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', todayCount: todaySessionCount });
+});
+
+// Full Project Source Code ZIP Download endpoint for backup & version management
+app.get('/api/download-zip', (_req, res) => {
+  try {
+    const zip = new AdmZip();
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const filename = `Dongmyeong_PhotoStudio_v1.0_${dateStr}.zip`;
+
+    const rootDir = process.cwd();
+
+    // Include src directory recursively
+    const srcDir = path.join(rootDir, 'src');
+    if (fs.existsSync(srcDir)) {
+      zip.addLocalFolder(srcDir, 'src');
+    }
+
+    // Include essential configuration and documentation files
+    const rootFiles = [
+      'package.json',
+      'server.ts',
+      'index.html',
+      'vite.config.ts',
+      'tsconfig.json',
+      'metadata.json',
+      '.env.example',
+      '.gitignore',
+    ];
+
+    for (const file of rootFiles) {
+      const fullPath = path.join(rootDir, file);
+      if (fs.existsSync(fullPath)) {
+        zip.addLocalFile(fullPath);
+      }
+    }
+
+    // Include PRD and instructions for future restoration
+    const readmeNotice = `# 2026 반여시장 레트로 AI 사진관 (v1.0 마스터 백업)
+- 제작/관리: 하하호호스튜디오 & 동명대학교 페스타 행사 버전
+- 저장 권장 위치: G:\\내 드라이브\\하하호호스튜디오\\App 개발\\동명사진관_v1.0\\
+- 백업 일자: ${now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
+
+## 포함된 주요 구성요소
+1. 5대 명품 테마 프롬프트 (src/server.ts, src/constants/themes.ts)
+   - 1번: 1970-80년대 한국 고전영화
+   - 2번: 1970년대 명동 & 서면 로맨스
+   - 3번: 고급 전통 한복 화보
+   - 4번: 1970-80년대 나의 학창시절
+   - 5번: 1980-90년대 반여 디스코 레트로 (8090 Street Style 정밀 튜닝본)
+2. 전문 사진관 하이엔드 스튜디오 3점 조명 & 반사판 규칙
+3. 5:7 비율 즉석 인화 포맷터 (1500x2100px) 및 로고 워터마크
+
+## 로컬 또는 새 프로젝트 실행 방법
+1. 압축을 해제합니다.
+2. 터미널에서 \`npm install\` 을 실행합니다.
+3. \`.env\` 파일을 생성하고 \`GEMINI_API_KEY=본인_API_키\` 를 입력합니다.
+4. \`npm run dev\` 를 실행하여 브라우저에서 \`http://localhost:3000\` 으로 접속합니다.
+`;
+    zip.addFile('README_반여시장_v1.0.md', Buffer.from(readmeNotice, 'utf-8'));
+
+    const buffer = zip.toBuffer();
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Length', buffer.length.toString());
+    return res.end(buffer);
+  } catch (err: any) {
+    console.error('Failed to create project zip:', err);
+    if (!res.headersSent) {
+      return res.status(500).json({ error: err.message || '압축 생성 실패' });
+    }
+  }
 });
 
 // Face detection & validation endpoint using Gemini Vision
